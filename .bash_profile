@@ -46,3 +46,15 @@ complete -W "NSGlobalDomain" defaults;
 
 # Add `killall` tab completion for common apps
 complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes SystemUIServer Terminal Twitter" killall;
+
+# Automatically switch node version if .nvmrc is present
+enter_directory() {
+	if [[ $PWD == $PREV_PWD ]]; then
+		return
+	fi
+
+	PREV_PWD=$PWD
+	[[ -f ".nvmrc" ]] && nvm use
+}
+
+export PROMPT_COMMAND=enter_directory
